@@ -15,34 +15,39 @@
 
 using namespace std;
 
-vector<vector<int>> findResultIsZero(vector<int> arr, bool asc) {
+vector<vector<int>> findThreeNumber(vector<int> arr, bool asc) {
 	int size = arr.size();
-	vector<vector<int>> result;
-	for (int i = 0; i < size; i++) {
+	vector<vector<int>> result;	// 保存结果
+	for (int i = 0; i < size; i++) {	// 保证"第一个数"在数组中
 		int m = i + 1;
 		int n = size - 1;
 		while (m < n) {
-			int sum = arr[m] + arr[n];
+			int sum = arr[m] + arr[n];	// 另外两个数的和
 			if (sum + arr[i]  > 0) {
-				asc ? n-- : m++;
+				asc ? n-- : m++;	// 升序和降序的操作不一样
 			}
 			else if (sum + arr[i] < 0) {
 				asc ? m++ : n--;
 			}
-			else {
+			else {	// 找到三数和为0
 				vector<int> v(3);
 				v[0] = arr[i];
 				v[1] = arr[m];
 				v[2] = arr[n];
 				result.push_back(v);
+
+				// "第二个数"和"第三个数"分别判断其下个数是否重复
 				do {
 					m++;
 				} while (m < n && arr[m - 1] == arr[m]);
+
 				do {
 					n--;
 				} while (m < n && arr[n + 1] == arr[n]);
 			}
 		}
+
+		// 外层循环"第一个数"，如果下一个"第一个数"相同，则为重复数据
 		while (i < size - 2 && arr[i + 1] == arr[i]) {
 			i++;
 		}
@@ -62,10 +67,9 @@ int main() {
 		}
 	}
 
-	vector<vector<int>> result = findResultIsZero(arr, asc);
+	vector<vector<int>> result = findThreeNumber(arr, asc);
 	for each (vector<int> v in result) {
 		cout << v[0] << " " << v[1] << " " << v[2] << endl;
 	}
-	int a;
-	cin >> a;
+	system("pause");
 }
